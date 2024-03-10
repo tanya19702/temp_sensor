@@ -1,0 +1,45 @@
+#include<TimerOne.h>
+
+const int lm35 = A0; 
+const int led = 13;
+const int threshold =30;
+const int low = 250;
+const int high=500;
+float temp;
+int k;
+float T1 , T2;
+bool ledS = LOW;
+
+void setup()
+{
+      Serial.begin(9600);  
+      pinMode(lm35,INPUT);
+      pinMode(led,OUTPUT);
+
+   
+     Timer1.initialize(low*1000);
+     Timer1.attachInterrupt(blinkl);
+}
+
+void blinkl()
+ {
+   ledS=!ledS;
+   digitalWrite(led, ledS);
+ }
+
+void loop() 
+{
+   int input = analogRead(lm35);
+    float temp = ((input*500.0)/1023.0);
+    temp = temp*100.0;
+    
+    if(temp<threshold)
+    {
+     Timer1.setPeriod(low* 1000);
+    }
+    
+   if (temp >30)
+   {
+    Timer1.setPeriod(high* 1000);
+   }
+}
