@@ -1,0 +1,49 @@
+const int lm35 = A0; 
+const int led = 13;
+float temp;
+bool ledS = LOW;
+int count =0;
+
+void setup()
+{
+      pinMode(lm35,INPUT);
+      pinMode(led,OUTPUT);
+}
+
+void loop() 
+{
+     
+    int input = analogRead(lm35);
+    float temp = ((input*500.0)/1023.0);
+    temp = temp*100.0;
+    
+    
+    if(temp<30)
+    {
+      
+      for(count=0;count<=100;count++)
+      {
+          if(count>=250)
+      {
+         digitalWrite(led, HIGH); 
+         count=0;
+      }
+      digitalWrite(led, LOW); 
+      }
+    
+    }
+    
+   if (temp >30)
+   {
+     for(count=0;count<=100;count++)
+      {
+          if(count>=500)
+      {
+         digitalWrite(led, HIGH); 
+         count=0;
+      }
+      digitalWrite(led, LOW); 
+      }
+    
+   }
+}
